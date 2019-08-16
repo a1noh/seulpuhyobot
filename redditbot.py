@@ -2,16 +2,18 @@ import praw
 import re
 import time
 
-reddit = praw.Reddit(client_id = 'KUJxbihdUqMfqQ', 
-	client_secret = '7Nl8DQrKCG59JX9ZbPRKAqph7Ko',
+reddit = praw.Reddit(client_id = '5bEFMMpIGQ0AXw', 
+	client_secret = 'nTXbDgQp2nSZHjC7NyijLqe3Xbo',
 	user_agent = '<console:reddit_bot:0.0.1 (by /u/seulpuhyo)>',
-	username = 'seulpuhyo',
+	username = 'anohbot',
 	password = 'Shwjdgus1!')
 
 print(reddit.read_only)
 
 subreddits = ['anohsandbox']
 pos = 0 #start at 0
+errors = 0
+
 title = "I want karma !"
 url = "https://www.google.com/"
 
@@ -19,15 +21,38 @@ url = "https://www.google.com/"
 def post():
 	global subreddits 
 	global pos # we can access the bariables
+	global errors;
+	try:
+		subreddit = reddit.subreddit(subreddits[pos])
+		subreddit.submit(title, url = url)
+		print('Posted to ' + subreddits[pos])
 
-	subreddit = reddit.subreddit(subreddits[pos])
-	subreddit.submit(title, url = url)
+		pos = pos + 1
 
-	pos = pos + 1
+		if (pos <= len(subreddits) - 1):
+			post()
+		else: 
+			print "Done"
 
-	if (pos <= len(subreddits) - 1):
-		post()
-	else: 
-		print "Done"
+	except praw.exceptions.APIException as e:
+		if (e.error_type == "RATELIMIT"):
+			delay = re.search("(\d+) minutes?", e.message)
+
+			if delay:
+				delay_seconds = float(int(delay.group(1))*60)
+				print('delaying...')
+				time.sleep(delay_seconds)
+				post()
+			else:
+				delay = re.search("(\d+) seconds", e.message)
+				delay_seconds = gloat(delay.group(1))
+				print('delaying...')
+				time.sleep(delay_seconds)
+				post()
+	except:
+		errors = error + 1
+		if (errors > 5):
+			print("Crashed !")
+			exit(1)
 
 post()
