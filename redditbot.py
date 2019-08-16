@@ -15,7 +15,7 @@ pos = 0 #start at 0
 errors = 0
 
 title = "I want karma !"
-url = "https://www.google.com/"
+url = "https://me.me/i/im-hungry-give-karma-help-a-poor-girl-in-need-41a48eb32ed44a7a9acc4cdfaef4bafc"
 
 
 def post():
@@ -45,7 +45,7 @@ def post():
 				post()
 			else:
 				delay = re.search("(\d+) seconds", e.message)
-				delay_seconds = gloat(delay.group(1))
+				delay_seconds = float(delay.group(1))
 				print('delaying...')
 				time.sleep(delay_seconds)
 				post()
