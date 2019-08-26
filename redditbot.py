@@ -10,7 +10,7 @@ reddit = praw.Reddit(client_id = '5bEFMMpIGQ0AXw',
 
 print(reddit.read_only)
 
-subreddits = ['anohsandbox']
+subreddits = ['anohsandbox'] # it's suppposed to have multipple subreddits
 pos = 0 #start at 0
 errors = 0
 
@@ -23,18 +23,18 @@ def post():
 	global pos # we can access the bariables
 	global errors;
 	try:
-		subreddit = reddit.subreddit(subreddits[pos])
+		subreddit = reddit.subreddit(subreddits[pos]) #will try to iterate through the subreddit list
 		subreddit.submit(title, url = url)
 		print('Posted to ' + subreddits[pos])
 
 		pos = pos + 1
 
-		if (pos <= len(subreddits) - 1):
+		if (pos <= len(subreddits) - 1): #recurisve call to post agian, if there are more subreddits
 			post()
 		else: 
 			print "Done"
 
-	except praw.exceptions.APIException as e:
+	except praw.exceptions.APIException as e: # will throw an exception when u spam
 		if (e.error_type == "RATELIMIT"):
 			delay = re.search("(\d+) minutes?", e.message)
 
