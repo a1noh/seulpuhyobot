@@ -6,7 +6,7 @@ reddit = praw.Reddit(client_id = '5bEFMMpIGQ0AXw',
 	client_secret = 'nTXbDgQp2nSZHjC7NyijLqe3Xbo',
 	user_agent = '<console:reddit_bot:0.0.1 (by /u/seulpuhyo)>',
 	username = 'anohbot',
-	password = 'Shwjdgus1!')
+	password = 'Password1')
 
 print(reddit.read_only)
 
